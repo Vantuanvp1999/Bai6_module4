@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${blog.title}"></title>
+</head>
+<body>
+<h1><span th:text="${blog.title}"></span></h1>
+<p><i>Tác giả: <span th:text="${blog.author}"></span></i></p>
+<p><i>Ngày đăng: <span th:text="${#temporals.format(blog.creationDate, 'dd/MM/yyyy HH:mm')}"></span></i></p>
+<p><strong>Danh mục:</strong> <span th:text="${blog.category?.name}"></span></p>
+<hr/>
+<div>
+  <p th:text="${blog.content}"></p>
+</div>
+<p><a th:href="@{/blogs}">Quay lại danh sách</a></p>
+</body>
+</html>

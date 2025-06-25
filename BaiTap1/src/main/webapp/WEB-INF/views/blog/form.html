@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Form Blog</title></head>
+<body>
+<h1 th:text="${blog.id == null ? 'Viết bài mới' : 'Chỉnh sửa bài viết'}"></h1>
+<form th:action="@{/blogs/save}" th:object="${blog}" method="post">
+  <input type="hidden" th:field="*{id}"/>
+  <input type="hidden" th:field="*{creationDate}"/>
+  <table>
+    <tr><td>Tác giả:</td><td><input type="text" th:field="*{author}"/></td></tr>
+    <tr><td>Tiêu đề:</td><td><input type="text" th:field="*{title}"/></td></tr>
+    <tr><td>Danh mục:</td>
+      <td>
+        <select th:field="*{category}">
+          <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
+        </select>
+      </td>
+    </tr>
+    <tr><td>Tóm tắt:</td><td><textarea th:field="*{summary}" rows="3" cols="50"></textarea></td></tr>
+    <tr><td>Nội dung:</td><td><textarea th:field="*{content}" rows="10" cols="50"></textarea></td></tr>
+    <tr><td></td><td><button type="submit">Lưu lại</button></td></tr>
+  </table>
+</form>
+<a th:href="@{/blogs}">Quay lại</a>
+</body>
+</html>

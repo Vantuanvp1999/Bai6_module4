@@ -6,28 +6,35 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "blogs")
 public class Blog {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
 
-    @Column(length = 10000)
+    @Column(columnDefinition = "TEXT")
+    private String summary;
+
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
     private String author;
 
-    private LocalDateTime createdAt;
+    @Column(name = "creation_date", updatable = false)
+    private LocalDateTime creationDate;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public Blog() {
     }
 
-    public Blog(Long id, String title, String content, String author, LocalDateTime createdAt) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.author = author;
-        this.createdAt = createdAt;
+    @PrePersist
+    public void prePersist() {
+        creationDate = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -46,6 +53,14 @@ public class Blog {
         this.title = title;
     }
 
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
     public String getContent() {
         return content;
     }
@@ -62,11 +77,19 @@ public class Blog {
         this.author = author;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public LocalDateTime getCreationDate() {
+        return creationDate;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Danh sách Danh mục</title></head>
+<body>
+<h1>Quản lý Danh mục</h1>
+<p><a th:href="@{/categories/create}">Tạo danh mục mới</a> | <a th:href="@{/blogs}">Quay lại trang Blog</a></p>
+<p th:if="${message}" th:text="${message}" style="color: green;"></p>
+<table border="1">
+  <thead><tr><th>Tên Danh mục</th><th>Hành động</th></tr></thead>
+  <tbody>
+  <tr th:each="cat : ${categories}">
+    <td th:text="${cat.name}"></td>
+    <td>
+      <a th:href="@{/categories/edit/{id}(id=${cat.id})}">Sửa</a> |
+      <a th:href="@{/categories/delete/{id}(id=${cat.id})}" onclick="return confirm('Bạn chắc chắn muốn xóa?')">Xóa</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

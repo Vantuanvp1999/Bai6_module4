@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách Blog</title>
+    <style> .active { font-weight: bold; } </style>
+</head>
+<body>
+<h1>Ứng dụng Blog</h1>
+<p><a th:href="@{/blogs/create}">Viết bài mới</a> | <a th:href="@{/categories}">Quản lý Danh mục</a></p>
+<p th:if="${message}" th:text="${message}" style="color: green;"></p>
+
+<div style="display: flex;">
+    <div style="flex-grow: 3; padding-right: 20px;">
+        <h2 th:if="${categoryName}" th:text="'Các bài viết trong danh mục: ' + ${categoryName}"></h2>
+        <h2 th:unless="${categoryName}">Tất cả bài viết</h2>
+
+        <table border="1">
+            <thead>
+            <tr>
+                <th>Tiêu đề</th>
+                <th>Tóm tắt</th>
+                <th>Danh mục</th>
+                <th>Ngày tạo</th>
+                <th>Hành động</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="blog : ${blogsPage.content}">
+                <td th:text="${blog.title}"></td>
+                <td th:text="${blog.summary}"></td>
+                <td th:text="${blog.category?.name}"></td>
+                <td th:text="${#temporals.format(blog.creationDate, 'dd/MM/yyyy')}"></td>
+                <td>
+                    <a th:href="@{/blogs/view/{id}(id=${blog.id})}">Xem</a> |
+                    <a th:href="@{/blogs/edit/{id}(id=${blog.id})}">Sửa</a> |
+                    <a th:href="@{/blogs/delete/{id}(id=${blog.id})}">Xóa</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top: 20px;">
+            <a th:href="@{'/blogs'(page=${blogsPage.number - 1}, search=${search})}" th:if="${blogsPage.hasPrevious()}">Previous</a>
+            <span th:each="i : ${#numbers.sequence(0, blogsPage.totalPages - 1)}">
+                <a th:href="@{'/blogs'(page=${i}, search=${search})}" th:text="${i + 1}" th:class="${i == blogsPage.number ? 'active' : ''}"></a>
+            </span>
+            <a th:href="@{'/blogs'(page=${blogsPage.number + 1}, search=${search})}" th:if="${blogsPage.hasNext()}">Next</a>
+        </div>
+    </div>
+
+    <div style="flex-grow: 1;">
+        <h3>Tìm kiếm</h3>
+        <form action="/blogs" method="get">
+            <input type="text" name="search" placeholder="Tìm theo tiêu đề..." th:value="${search}">
+            <button type="submit">Tìm</button>
+        </form>
+        <hr>
+        <h3>Danh mục</h3>
+        <ul>
+            <li><a th:href="@{/blogs}">Tất cả bài viết</a></li>
+            <li th:each="cat : ${categories}">
+                <a th:href="@{/blogs/category/{id}(id=${cat.id})}" th:text="${cat.name}"></a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
