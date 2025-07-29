@@ -29,7 +29,7 @@ public class BlogControllerRestfull {
 
     @GetMapping("/blogs")
     public ResponseEntity<Iterable<Blog>> getAllBlogs() {
-        Iterable<Blog> blogs = blogService.findAll();
+        Iterable<Blog> blogs =  blogService.findAll();
         if (blogs == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
