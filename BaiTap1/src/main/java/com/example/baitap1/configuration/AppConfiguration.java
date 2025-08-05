@@ -106,9 +106,10 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     }
 
     public Properties additionalProperties() {
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "update");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-        return properties;
+        Properties props = new Properties();
+        props.setProperty("hibernate.hbm2ddl.auto", "update");
+        props.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        props.setProperty("hibernate.show_sql", "true");
+        return props;
     }
 }

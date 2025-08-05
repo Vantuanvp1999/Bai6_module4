@@ -66,4 +66,5 @@ public class CustomerController {
         model.addAttribute("customer", customer);
         return "/view";
     }
+
 }
